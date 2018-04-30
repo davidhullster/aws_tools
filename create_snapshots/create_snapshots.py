@@ -17,12 +17,14 @@ def list_instances(name):
     else:
         instances = ec2.instances.all()
     for i in instances:
+        tags = { t['Key']: t['Value'] for t in i.tags or [] }
         print(', '.join((
            i.id,
            i.instance_type,
            i.placement['AvailabilityZone'],
            i.state['Name'],
-           i.public_dns_name
+           i.public_dns_name,
+           tags.get('Name', '<no project>')
         )))
 
     return
