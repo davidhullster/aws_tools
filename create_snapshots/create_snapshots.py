@@ -16,6 +16,14 @@ def filter_instances(name):
     return instances
 
 @click.group()
+def cli():
+    """create_snapshots manages snapshots and instances"""
+
+@cli.group('volumes')
+def volumes():
+    """Commands for volumes"""
+
+@cli.group('instances')
 def instances():
     """Commands for instances"""
 
@@ -60,5 +68,19 @@ def stop_instances(name):
 
     return
 
+@instances.command('start')
+@click.option('--name', default=None,
+    help='Only instances for project')
+def start_instances(name):
+    "Start EC2 instances"
+
+    instances = filter_instances(name)
+
+    for i in instances:
+        print("Starting {0}...".format(i.id))
+        i.start()
+
+    return
+
 if __name__ == '__main__':
-    instances()
+    cli()
