@@ -19,6 +19,32 @@ def filter_instances(name):
 def cli():
     """create_snapshots manages snapshots and instances"""
 
+@cli.group('snapshots')
+def snapshots():
+    """Commands for snapshots"""
+
+@snapshots.command('list')
+@click.option('--name', default=None,
+    help="Only snapshots for name (tag Name:<name>)")
+def list_snapshots(name):
+    "List EC2 snapshots"
+
+    instances = filter_instances(name)
+
+    for i in instances:
+        for v in i.volumes.all():
+            for s in v.snapshots.all():
+                print(", ".join((
+                    s.id,
+                    v.id,
+                    i.id,
+                    s.state,
+                    s.progress,
+                    s.start_time.strftime("%c")
+                )))
+
+    return
+
 @cli.group('volumes')
 def volumes():
     """Commands for volumes"""
@@ -45,6 +71,33 @@ def list_volumes(name):
 @cli.group('instances')
 def instances():
     """Commands for instances"""
+
+@instances.command('snapshot',
+    help="Create snapshots of all volumes")
+@click.option('--name', default=None,
+    help="Only instances for name (tag Name:<name>)")
+def create_snapshots(name):
+    "Create EC2 snapshots"
+
+    instances = filter_instances(name)
+
+    for i in instances:
+
+        print("Stopping {0}...".format(i.id))
+        i.stop()
+        i.wait_until_stopped()
+
+        for v in i.volumes.all():
+            print("Creating snapshot of {0}".format(v.id))
+            v.create_snapshot(Description="Created by create_snapshot")
+
+        print("Starting {0}...".format(i.id))
+
+        i.start()
+        i.wait_until_running()
+
+    print("Snapshots Done!")
+    return
 
 @instances.command('list')
 @click.option('--name', default=None,
