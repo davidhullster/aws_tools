@@ -23,6 +23,25 @@ def cli():
 def volumes():
     """Commands for volumes"""
 
+@volumes.command('list')
+@click.option('--name', default=None,
+    help="Only volumes for name (tag Name:<name>)")
+def list_volumes(name):
+    "List EC2 volumes"
+
+    instances = filter_instances(name)
+
+    for i in instances:
+        for v in i.volumes.all():
+            print(", ".join((
+                v.id,
+                i.id,
+                v.state,
+                str(v.size) + "GiB",
+                v.encrypted and "Encrypted" or "Not Encrypted"
+            )))
+    return
+
 @cli.group('instances')
 def instances():
     """Commands for instances"""
