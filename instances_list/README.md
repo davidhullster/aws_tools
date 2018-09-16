@@ -8,7 +8,9 @@ Options:
 Commands:
   ip    List EC2 ip addresses
   list  List EC2 instances
-SDGL150488926:instances_list dhull$ python3 instances_list.py ip --help
+
+
+instances_list dhull$ python3 instances_list.py ip --help
 Usage: instances_list.py ip [OPTIONS]
 
   List EC2 ip addresses
@@ -18,7 +20,9 @@ Options:
   --profile TEXT  Optional AWS profile name to specify AWS auth profile
   --az TEXT       Optional AWS Availability Zone
   --help          Show this message and exit.
-SDGL150488926:instances_list dhull$ python3 instances_list.py list --help
+
+
+instances_list dhull$ python3 instances_list.py list --help
 Usage: instances_list.py list [OPTIONS]
 
   List EC2 instances
