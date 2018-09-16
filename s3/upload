@@ -1,0 +1,11 @@
+#!/usr/bin/env python3.7
+
+import boto3
+
+s3 = boto3.client('s3')
+
+filename = input("path and name of file: ")
+bucketname = input("name of bucket: ")
+
+with open(filename, 'rb') as f:
+    s3.upload_fileobj(f, bucketname, 'test-keyname')

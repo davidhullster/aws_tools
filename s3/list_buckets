@@ -1,0 +1,12 @@
+#!/usr/bin/env python3.7
+
+import boto3
+
+s3 = boto3.client('s3')
+
+bucket_response = s3.list_buckets()
+
+for bucket in bucket_response['Buckets']:
+    resp = s3.list_objects_v2(Bucket=f"{bucket['Name']}")
+    for item in resp['Contents']:
+        print(item['Key'])
