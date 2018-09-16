@@ -1,0 +1,8 @@
+#!/usr/bin/env python3.7
+
+import boto3
+
+client = boto3.client('autoscaling')
+
+for key,value in client.describe_auto_scaling_instances().items():
+    print(f"{key} {value}")

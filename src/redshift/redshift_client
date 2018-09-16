@@ -1,0 +1,16 @@
+!#/usr/bin/env python3.7
+
+import boto3
+
+client = boto3.client('redshift')
+
+for cluster in client.describe_clusters(
+    ClusterIdentifier='redshift_cluster_1',
+    MaxRecords=10,
+    TagKeys=[
+        'Name',
+    ],
+    TagValues=[
+        'cluster1',
+    ]
+)

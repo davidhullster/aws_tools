@@ -1,0 +1,20 @@
+#!/usr/bin/env python3.7
+
+import boto3
+
+search_string = input("enter endpoint info to search for")
+
+client = boto3.client('rds')
+
+# create dict of rds endpoints
+def get_rds_endpoints():
+    try:
+        for instance in rds.instances.all():
+            for endpoint in instance.endpoint:
+                if search_string in str(endpoint['Value']:
+                    instance_dict[str(instance.endpoint)] = endpoint['Value']
+    except ClientError:
+        print("AWS Token Expired")
+
+if __name__ == "__main__":
+    get_rds_endpoints()

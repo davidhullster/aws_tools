@@ -1,0 +1,9 @@
+#!/usr/bin/env python3.7
+
+import boto3
+
+client = boto3.client('route53')
+
+num_hosted_zones = client.get_hosted_zone_count()
+
+print(num_hosted_zones)
